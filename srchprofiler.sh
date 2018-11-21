@@ -15,7 +15,7 @@ AWK=/usr/bin/awk;
 PS=/bin/ps;
 CLR=/usr/bin/clear;
 FIND=/usr/bin/find;
-PARTBA=sysinfo.sh;
+PARTBA=./sysinfo.sh;
 PARTBB=./sysinfoprocs.sh;
 
 #main menu function for flow of rest of program
@@ -51,7 +51,7 @@ function dopartba {
 arga=$1
 
 
-partba=$($partba "$arga" );
+partba=$($PARTBA "$arga" );
 $CLR;
 echo "$partba"
 
@@ -505,26 +505,30 @@ if [ "$prompt" -eq "2" ]
 
 if [ "$prompt" -eq "3" ]
     then	
- echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (mem disk cpu)"
+ echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (mem disk net up)"
 		read -r  opta;
                 
                 if [ "$opta" = "q" ]||[ "$opta" = "Q" ]
 		  then 
 		   partba "$opta";
 	        fi
+		if [ "$opta" = mem ]|| [ "$opta" = "disk" ] || [ "$opta" = "net" ] || [ "$opta" = "up" ] 
+                  then dopartba "$opta"
+		fi
+ 
      fi
      
      
 if [ "$prompt" -eq "4" ]
     then	
- echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (-n -f -c )"
+ echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (n c p l f )"
 		read -r  optb;
                 
                 if [ "$optb" = "q" ]||[ "$optb" = "Q" ]
 		  then 
 			menu;
 	        fi
-		if [ "$optb" = n ]
+		if [ "$optb" = n ]|| [ "$optb" = "c" ] || [ "$optb" = "p" ]|| [ "$optb" = "l" ] || [ "$optb" = "f" ]
                   then dopartbb "$optb"
 		fi
      fi
