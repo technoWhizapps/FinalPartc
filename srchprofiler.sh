@@ -43,6 +43,46 @@ fi
 }
 #Profiler program to select the correct program from the list returned
 
+function dopartba {
+arga=$1
+argb=$2
+argc=$3
+argd=$4
+
+
+
+partba=$($partba "$arga" "$argb" "$argc" "$argd");
+$CLR;
+echo "$partba"
+
+echo "Do you wish to return to the main menu now Y/y"
+read -r retmenu;
+if [ "$retmenu" = "Y" ] || [ "$retmenu" = "y" ]
+  then
+    menu
+  fi
+
+}
+
+function dopartbb {
+arga=$1
+
+
+
+
+partbb=$($partbb "$arga" "$argb" "$argc" "$argd");
+$CLR;
+echo "$partbb"
+
+echo "Do you wish to return to the main menu now Y/y"
+read -r retmenu;
+if [ "$retmenu" = "Y" ] || [ "$retmenu" = "y" ]
+  then
+    menu
+  fi
+
+}
+
 function selectprog {
 
 prog=$1
