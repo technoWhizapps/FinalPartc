@@ -15,8 +15,6 @@ AWK=/usr/bin/awk;
 PS=/bin/ps;
 CLR=/usr/bin/clear;
 FIND=/usr/bin/find;
-PARTBA=./sysinfo.sh;
-PARTBB=./sysinfoprocs.sh;
 
 #main menu function for flow of rest of program
 function menu {
@@ -28,7 +26,7 @@ trap '' SIGINT;
 echo -e "Enter your choice from the Menu:";
 echo -e "1: Find a file on the system";
 echo -e "2: Search and Profile a running program on the system";
-echo -e "3: Get some system info (mem disk)";
+echo -e "3: Get some system info ";
 echo -e "4: Get some info and post processing";
 echo -e "5: Exit this Program";
 
@@ -47,41 +45,6 @@ fi
 }
 #Profiler program to select the correct program from the list returned
 
-function dopartba {
-arga=$1
-
-
-partba=$($PARTBA "$arga" );
-$CLR;
-echo "$partba"
-
-echo "Do you wish to return to the main menu now Y/y"
-read -r retmenu;
-if [ "$retmenu" = "Y" ] || [ "$retmenu" = "y" ]
-  then
-    menu
-  fi
-
-}
-
-function dopartbb {
-arga=$1
-
-
-
-
-partbb=$($PARTBB "$arga" );
-$CLR;
-echo "$partbb"
-
-echo "Do you wish to return to the main menu now Y/y"
-read -r retmenu;
-if [ "$retmenu" = "Y" ] || [ "$retmenu" = "y" ]
-  then
-    menu
-  fi
-
-}
 
 function selectprog {
 
@@ -142,7 +105,178 @@ echo "---------------------------" &
 
 }
 
+#script from the part B assignment this gives system info based on the args parsed in
 
+function  dosysinfoprocs {
+# This is the second script used for post processing of information it gathers information based on flags given to it on the command line
+# It gives continuing system information based on the flags parsed into the script below from the command line.
+
+# -n gives the nice number of the current process 
+# -c - gives users the number of cores on the system
+# -p - gives the current Number of Process for the user id that runs script
+# -l gives the  maximum number of file descriptors for the system
+# -f gives the  current users open filedescriptors
+# example useage sysinfoprocs.sh -n - gives Nice number of current process
+
+clear;
+#Set variables for programs used
+WHO=$(/usr/bin/whoami);
+LCPU=/usr/bin/lscpu;
+FD=/usr/bin/lsof;
+PS=/bin/ps;
+
+#Set commands used by the system options 
+filedesc=$($FD |grep  "$WHO"| wc -l);
+#Get current process number
+curproc=$(echo $$);
+coreinfo=$($LCPU | grep "^Core");
+#current process priority Nice 
+ni=$($PS -ax -o pid,ni |grep $curproc);
+#total number of processes for current user
+psme=$($PS -U "$WHO" -u "$WHO" | wc -l);
+#file descriptor limit
+ulim=$(ulimit -H);
+
+# begin Options for the Script to accept as input for Options on what it should do
+while getopts ncplf opt; 
+do
+	case $opt in 
+
+        n)
+		echo "Below Lists the current process id and then its Nice number" >&2
+		echo "###########################################################" >&2
+		echo "                                            " >&2
+                echo "$ni " >&2 
+		;;
+	c)   
+		echo "Below lists the Cpu and Cores on system" >&2
+		echo "#######################################" >&2
+		echo "                                            " >&2
+                
+		echo "$coreinfo" >&2
+		;;
+	p)   
+
+		echo "Below lists the number of processes under the current user" >&2
+		echo "##########################################################" >&2
+		echo "                                            " >&2
+                
+		echo "$psme" >&2
+		;;
+       l)
+		echo "Below lists maximum number of file descriptors" >&2
+		echo "##############################################" >&2
+		echo "                                            " >&2
+                
+		echo "$ulim" >&2
+		;;
+       f)
+	       clear;
+		echo "Below lists the number filedescriptors for the current user" >&2
+		echo "###########################################################" >&2
+		echo "                                            " >&2
+                
+		echo "$filedesc" >&2
+		;;
+
+	[?])
+		echo "invalid Option: -$OPTARG" >&2
+		;;
+	esac
+done
+
+echo "Do you wish to return to the main menu now Y/y"
+read -r retmenu;
+if [ "$retmenu" = "Y" ] || [ "$retmenu" = "y" ]
+  then
+    menu
+  fi
+
+
+
+}
+
+# script from part B gives user syinfo 
+
+function dosysinfo {
+# This script will take up to 4 command flags and from that send details about the system back to the user. 
+#It will take the otions all together and also one at a time they should be enetered following the script name below is a list of the command flags example <sysinfo.sh mem disk> - Display free memory then free disk
+# script followed by mem - will show the available and memory consumption on the disk
+# script followed by disk will show the abvailable and used diskspace on the system
+# script name followed by net - will show the network connections on the system
+# script name followed by up will show the uptime since last rebott for the system.
+# clear the screen
+
+clear;
+#create variables for software used
+FREE=/usr/bin/free;
+DF=/bin/df;
+UP=/usr/bin/uptime;
+NET=/sbin/ifconfig
+
+
+#set variables for use in script
+diskf=$($DF -kh);
+#get uptime remove comma from that
+upt=$($UP | awk '{print $3}' | tr -d ',');
+memfr=$($FREE used -m);
+netcf=$($NET -a);
+#get the ethernet attrib
+mac=$($NET -a | grep  ether);
+
+#check arguments input with the script 
+#"disk" - show disk
+#"mem" - show free mem
+#"net" - show Network 
+#"up" - show uptime 
+
+for arg in "$@"
+do
+	if  [ "$arg" == "disk" ]
+	then 
+         echo " The Below lists the Free and used disks: ";
+         echo " ######################################## ";
+         echo "                                          ";
+	 echo "$diskf " ;
+	 echo "                                          ";
+	fi
+
+       	if  [ "$arg" == "mem" ]
+	then 
+	 echo " The Below lists the Free and used Memory: ";
+         echo " ######################################## ";
+         echo "                                          ";
+	 echo "$memfr " >&2;
+	fi
+        	if  [ "$arg" == "up" ]
+	then 
+	 echo " The Below lists the systems uptime: ";
+         echo " ################################### ";
+         echo "                                          ";
+	 echo " hours. minutes $upt " >&2;
+	fi
+        if  [ "$arg" == "net" ]
+	then 
+	 echo " The Below lists the network details for your system: ";
+         echo " #################################################### ";
+         echo "                                          ";
+	 echo "$netcf " >&2;
+	 echo "                                          ";
+         echo " The Below lists the Mac address: ";
+         echo " ################################# ";
+         echo "                                          ";
+	 echo "$mac " >&2;
+	fi
+
+done
+echo "Do you wish to return to the main menu now Y/y"
+read -r retmenu;
+if [ "$retmenu" = "Y" ] || [ "$retmenu" = "y" ]
+  then
+    menu
+  fi
+
+}
 
 function toprog {
   prog=$1
@@ -161,13 +295,14 @@ fi
 if [ "$memcpu" = "M" ] || [ "$memcpu" = "m" ]
 
   then
+echo "Enter will exit to menu"
 
 while true ; 
 do
+read -n 1 -t 3 && menu
+
 pmem "$show" "$prog" ; 
 sleep 1
-echo "Enter will exit to menu"
-read -n 1 -t 3 && menu
 done
 fi
 if [ "$memcpu" = "C" ] || [ "$memcpu" = "c" ]
@@ -184,6 +319,7 @@ done
 fi
 }
 
+#Do a custom find with Symbolic links followed
 
 function docustomfindsym {
 findpath=$1
@@ -211,6 +347,7 @@ if [ "$retmenu" = "Y" ] || [ "$retmenu" = "y" ]
 
 
 #Function that will perform the find command from the find section of the menu
+
 function docustomfind {
 findpath=$1
 what=$2
@@ -491,7 +628,11 @@ if [ "$prompt" -eq "2" ]
       read -p " There were 2 or more programs identified: 0-$i : " choice;
 
      # check whether the reponse is ok
-
+         if [ "$choice" = "q" ]||[ "$choice" = "Q" ]
+		  then 
+			menu;
+	        fi
+	
       if [ "$choice" -gt $i ]||[ "$choice" -lt "0" ]
        then
 	 echo "Please enter a valid choice "
@@ -513,9 +654,7 @@ if [ "$prompt" -eq "3" ]
 		   partba "$opta";
 	        fi
 		if [ "$opta" = mem ]|| [ "$opta" = "disk" ] || [ "$opta" = "net" ] || [ "$opta" = "up" ] 
-                  then dopartba "$opta"
-                else  
-                dopartba "$opta"
+                  then dosysinfo "$opta"
 		fi
  
      fi
@@ -523,15 +662,15 @@ if [ "$prompt" -eq "3" ]
      
 if [ "$prompt" -eq "4" ]
     then	
- echo -e "You want to run the sysinfoprocs.sh script please enter the options seperated by spaces (n c p l f )"
+ echo -e "You want to run the sysinfoprocs.sh script please enter the options seperated by spaces (-n -c -p -l -f )"
 		read -r  optb;
                 
                 if [ "$optb" = "q" ]||[ "$optb" = "Q" ]
 		  then 
 			menu;
 	        fi
-		if [ "$optb" = n ]|| [ "$optb" = "c" ] || [ "$optb" = "p" ]|| [ "$optb" = "l" ] || [ "$optb" = "f" ] || [ "$optb" = '[a-z]' ] 
-                  then dopartbb "$optb"
+		if [ "$optb" = "-n" ]|| [ "$optb" = "-c" ] || [ "$optb" = "-p" ]|| [ "$optb" = "-l" ] || [ "$optb" = "-f" ] 
+                  then dosysinfoprocs "$optb"
 		fi
      fi
 #Exit when 5 is selected

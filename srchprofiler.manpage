@@ -7,7 +7,7 @@ SYNOPSIS
 
 DESCRIPTION
   
-    Srchprofiler.sh is a menu driven script that will allow you to do one of 2 things firstly it will allow you to perform adavnced find operations and executing actions on the files. It will also allow you to perform custom actions on the files that it finds if required. Secondly it allows the user to profile different programs on the system. Specifically giving details about memory and cpu used for the selected program. Search profiler can not be exit with the CTRL-C commnad it only allows exit with the 3 option on the main menu.
+    Srchprofiler.sh is a menu driven script that will allow you to do one of 4 things firstly it will allow you to perform adavnced find operations and executing actions on the files. It will also allow you to perform custom actions on the files that it finds if required. Secondly it allows the user to profile different programs on the system. Specifically giving details about memory and cpu used for the selected program which will update each minute until Enter is pressed. Search profiler can not be exit with the CTRL-C commnad it only allows exit with the 5 option on the main menu. The subsytem menu also issues commands to the sysinfo and sysinfoprocs scripts which have been included as seperate functions directly in this program.
 	
 OPTIONS
 
@@ -15,33 +15,40 @@ OPTIONS
    1. - Initiate find options
 
      see sub menu options
+       
 
-   2. - Initiate Program profiler
+   2. - Initiate Program profiler - 
 
-     see sub menu options
+     sub menu options
+        The profiler allows the user to search for a program name and then refine the search and then ask the user which item they wish to profile CPU or Memory. This is selected and the system infor will be updated each second. Enter will exit to main menu.
 
-   3.- Exit from program
+   3. - Operate sysinfo command parses arguments of either one of mem , disk , net or up to gather information about the current status of system for more information see (sysinfo.manpage)
+
+   4. - Operate the sysinfoprocs script , this is the command options given to use the post processing script, -n gives the nice number of the current process -c - gives users the number of cores on the system, -p - gives the current Number of Process for the user id that runs script, -l gives the  maximum number of file descriptors for the system, -f gives the  current users open filedescriptors See (sysinfoprocs.manpage)
+
+   5.- Exit from program
    
+Sum menu options (option 2) - search utility
 
     The sub menu is invoked when one of the primary options is selected these allow the user to refine when the user selects 1 it will start the options for the the search utility. This allows the user to exit at any point usin Q or q to the main menu. The search function is a wrapper script for the find command.
-This requests the following details from the user whereby the user is expected to give the details. The directory where find should start. Then it requests the Option , this is one of Path, Type, Fstype, Group. Each one of these displays a sub option which needs to be considered. The Type includes any type like file block or character device --------------------------
-Then the Group will allow you to choose a group that would own the file this means that whatebver is selected will be only owned by that group.
-
-The Custom feature is any commnad that can be parsed into the -exec feature of the find command.
-
-
-
-
-
-
-
-
+This requests the following details from the user whereby the user is expected to give the details. The directory where find should start. Then it requests the Option , this is one of Path, Type, Fstype, Group. Each one of these displays a sub option which needs to be considered. The Type includes any type like file block or character device for further information of file types see find command.
+Then the Group will allow you to choose a group that would own the file this means that whatever is selected will be only owned by that group.
+Fstype can be any one of the file types listed in /etc/mtab.
+Path can be any Path on the system.
+The Custom feature is any command that can be parsed into the -exec feature of the find command.
 
   -print will just print the file out 
   -print0 will just print the file out 
   -delete will delete the file when it is found 
 
-  -custom options on the find command these can be directly entered into the menu and that 
+  -custom 
+
+Sue menu options (option 2) - profiler
+
+  The profiler allows the user to search for a program name and then refine the search and then ask the user which item they wish to profile CPU or Memory. This is selected and the system infor will be updated each second. Enter will exit to main menu.
+
 
 AUTHOR
   Toby Turnbull - (rmit Student number s3671056 - email s3671056@student.rmit.edu.au)
+
+see also (sysinfo.manpage) (sysinfoprocs.manpage) (find)
