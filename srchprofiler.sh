@@ -15,6 +15,8 @@ AWK=/usr/bin/awk;
 PS=/bin/ps;
 CLR=/usr/bin/clear;
 FIND=/usr/bin/find;
+PARTBA=sysinfo.sh;
+PARTBB=sysinfoprocs.sh;
 
 #main menu function for flow of rest of program
 function menu {
