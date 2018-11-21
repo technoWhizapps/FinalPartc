@@ -504,12 +504,12 @@ if [ "$prompt" -eq "2" ]
      fi
   fi
 #Exit when 3 is selected
-if [ "$prompt" -eq "3" ]
+if [ "$prompt" -eq "5" ]
     then	
       echo -e "Exiting srchprofiler...........";
       exit 0;
   else
-      echo " Error Please enter a value listed on the menu........(1,2,3)"
+      echo " Error Please enter a value listed on the menu........(1,2,3,4,5)"
       sleep 2;
       menu;
   fi
