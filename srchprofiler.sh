@@ -28,7 +28,7 @@ trap '' SIGINT;
 echo -e "Enter your choice from the Menu:";
 echo -e "1: Find a file on the system";
 echo -e "2: Search and Profile a running program on the system";
-echo -e "3: Get some system info (mem disk);
+echo -e "3: Get some system info (mem disk)";
 echo -e "4: Get some info and post processing";
 echo -e "5: Exit this Program";
 
@@ -505,24 +505,24 @@ if [ "$prompt" -eq "2" ]
 
 if [ "$prompt" -eq "3" ]
     then	
- echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (-m -d -f -n)"
-		read -r  optb;
-                
-                if [ "$opt" = "q" ]||[ "$opt" = "Q" ]
-		  then 
-		   partbb "$opt";
-	        fi
-     fi
-     
-     
-if [ "$prompt" -eq "4" ]
-    then	
  echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (mem disk cpu)"
 		read -r  opta;
                 
                 if [ "$opta" = "q" ]||[ "$opta" = "Q" ]
 		  then 
 		   partba "$opta";
+	        fi
+     fi
+     
+     
+if [ "$prompt" -eq "4" ]
+    then	
+ echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (-n -f -c )"
+		read -r  optb;
+                
+                if [ "$optb" = "q" ]||[ "$optb" = "Q" ]
+		  then 
+		   partbb "$optb";
 	        fi
      fi
 #Exit when 5 is selected
