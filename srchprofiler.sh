@@ -26,11 +26,13 @@ trap '' SIGINT;
 echo -e "Enter your choice from the Menu:";
 echo -e "1: Find a file on the system";
 echo -e "2: Search and Profile a running program on the system";
-echo -e "3: Exit this Program";
+echo -e "3: Find a file on the system";
+echo -e "4: Search and Profile a running program on the system";
+echo -e "5: Exit this Program";
 
 read -r prompt;
 #error check the menu options meet expected from input
-if [ "$prompt" = "1" ] || [ "$prompt" = "2" ] || [ "$prompt" = "3" ]
+if [ "$prompt" = "1" ] || [ "$prompt" = "2" ] || [ "$prompt" = "3" ]|| [ "$prompt" = "4" ] || [ "$prompt" = "5" ]
 then 
 menu_actions "$prompt"
 # If they dont match show an error message and rerun menu 
