@@ -16,7 +16,7 @@ PS=/bin/ps;
 CLR=/usr/bin/clear;
 FIND=/usr/bin/find;
 PARTBA=sysinfo.sh;
-PARTBB=sysinfoprocs.sh;
+PARTBB=./sysinfoprocs.sh;
 
 #main menu function for flow of rest of program
 function menu {
@@ -70,7 +70,7 @@ arga=$1
 
 
 
-partbb=$($partbb "$arga" );
+partbb=$($PARTBB "$arga" );
 $CLR;
 echo "$partbb"
 
@@ -522,8 +522,11 @@ if [ "$prompt" -eq "4" ]
                 
                 if [ "$optb" = "q" ]||[ "$optb" = "Q" ]
 		  then 
-		   partbb "$optb";
+			menu;
 	        fi
+		if [ "$optb" = n ]
+                  then dopartbb "$optb"
+		fi
      fi
 #Exit when 5 is selected
 if [ "$prompt" -eq "5" ]
