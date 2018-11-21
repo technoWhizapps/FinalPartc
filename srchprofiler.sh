@@ -505,7 +505,7 @@ if [ "$prompt" -eq "2" ]
 
 if [ "$prompt" -eq "3" ]
     then	
- echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (mem disk net up)"
+ echo -e "You want to run the sysinfo.sh script please enter the options seperated by spaces (mem disk net up)"
 		read -r  opta;
                 
                 if [ "$opta" = "q" ]||[ "$opta" = "Q" ]
@@ -514,6 +514,8 @@ if [ "$prompt" -eq "3" ]
 	        fi
 		if [ "$opta" = mem ]|| [ "$opta" = "disk" ] || [ "$opta" = "net" ] || [ "$opta" = "up" ] 
                   then dopartba "$opta"
+                else  
+                dopartba "$opta"
 		fi
  
      fi
@@ -521,14 +523,14 @@ if [ "$prompt" -eq "3" ]
      
 if [ "$prompt" -eq "4" ]
     then	
- echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (n c p l f )"
+ echo -e "You want to run the sysinfoprocs.sh script please enter the options seperated by spaces (n c p l f )"
 		read -r  optb;
                 
                 if [ "$optb" = "q" ]||[ "$optb" = "Q" ]
 		  then 
 			menu;
 	        fi
-		if [ "$optb" = n ]|| [ "$optb" = "c" ] || [ "$optb" = "p" ]|| [ "$optb" = "l" ] || [ "$optb" = "f" ]
+		if [ "$optb" = n ]|| [ "$optb" = "c" ] || [ "$optb" = "p" ]|| [ "$optb" = "l" ] || [ "$optb" = "f" ] || [ "$optb" = '[a-z]' ] 
                   then dopartbb "$optb"
 		fi
      fi
