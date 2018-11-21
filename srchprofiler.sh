@@ -28,8 +28,8 @@ trap '' SIGINT;
 echo -e "Enter your choice from the Menu:";
 echo -e "1: Find a file on the system";
 echo -e "2: Search and Profile a running program on the system";
-echo -e "3: Find a file on the system";
-echo -e "4: Search and Profile a running program on the system";
+echo -e "3: Get some system info (mem disk);
+echo -e "4: Get some info and post processing";
 echo -e "5: Exit this Program";
 
 read -r prompt;
@@ -502,7 +502,8 @@ if [ "$prompt" -eq "2" ]
      fi
   fi
 #Exit when 3 is selected
-[ "$prompt" -eq "5" ]
+
+if [ "$prompt" -eq "3" ]
     then	
  echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (-m -d -f -n)"
 		read -r  optb;
@@ -514,7 +515,7 @@ if [ "$prompt" -eq "2" ]
      fi
      
      
-[ "$prompt" -eq "5" ]
+if [ "$prompt" -eq "4" ]
     then	
  echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (mem disk cpu)"
 		read -r  opta;
@@ -538,3 +539,4 @@ if [ "$prompt" -eq "5" ]
 
 # Call main menu
 menu;
+
