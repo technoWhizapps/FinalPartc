@@ -47,13 +47,9 @@ fi
 
 function dopartba {
 arga=$1
-argb=$2
-argc=$3
-argd=$4
 
 
-
-partba=$($partba "$arga" "$argb" "$argc" "$argd");
+partba=$($partba "$arga" );
 $CLR;
 echo "$partba"
 
@@ -72,7 +68,7 @@ arga=$1
 
 
 
-partbb=$($partbb "$arga" "$argb" "$argc" "$argd");
+partbb=$($partbb "$arga" );
 $CLR;
 echo "$partbb"
 
@@ -506,12 +502,24 @@ if [ "$prompt" -eq "2" ]
 #Exit when 3 is selected
 [ "$prompt" -eq "5" ]
     then	
- echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (mem disk cpu)"
-		read -r  opt;
+ echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (-m -d -f -n)"
+		read -r  optb;
                 
                 if [ "$opt" = "q" ]||[ "$opt" = "Q" ]
 		  then 
-		   partba $;
+		   partbb "$opt";
+	        fi
+     fi
+     
+     
+[ "$prompt" -eq "5" ]
+    then	
+ echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (mem disk cpu)"
+		read -r  opta;
+                
+                if [ "$opta" = "q" ]||[ "$opta" = "Q" ]
+		  then 
+		   partba "$opta";
 	        fi
      fi
 #Exit when 5 is selected
