@@ -504,6 +504,17 @@ if [ "$prompt" -eq "2" ]
      fi
   fi
 #Exit when 3 is selected
+[ "$prompt" -eq "5" ]
+    then	
+ echo -e "You want to run the xxxxxxx script please enter the options seperated by spaces (mem disk cpu)"
+		read -r  opt;
+                
+                if [ "$opt" = "q" ]||[ "$opt" = "Q" ]
+		  then 
+		   partba $;
+	        fi
+     fi
+#Exit when 5 is selected
 if [ "$prompt" -eq "5" ]
     then	
       echo -e "Exiting srchprofiler...........";
